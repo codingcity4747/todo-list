@@ -11,7 +11,9 @@ public class todo {
     private int id ;
 
     private boolean isDone;
+
     private String title ;
+
     private String desc ;
 
 
