@@ -4,7 +4,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,6 +34,7 @@ public class todoAdapter extends RecyclerView.Adapter<todoAdapter.viewHolder> {
         holder.isDone.setChecked(item.isDone());
         holder.title.setText(item.getTitle());
         holder.descreption.setText(item.getDesc());
+
     }
 
     @Override
@@ -42,6 +45,9 @@ public class todoAdapter extends RecyclerView.Adapter<todoAdapter.viewHolder> {
     public void setTodoItems(List<todo> items){
         this.todoItems = items;
         notifyDataSetChanged();
+    }
+    public todo getItemAt(int position){
+        return todoItems.get(position);
     }
 
      class viewHolder extends RecyclerView.ViewHolder {

@@ -1,6 +1,7 @@
 package project.todolist;
 
 import android.app.Application;
+import android.util.Log;
 
 import java.util.List;
 
@@ -39,6 +40,7 @@ public class todoViewModel extends AndroidViewModel {
     }
 
     public LiveData<List<todo>>getAllTodoItems(){
+        Log.e(allTodoItems.getValue()+"","getAllTodoItems() called");
         return allTodoItems;
     }
 }

@@ -6,4 +6,6 @@
 
     <color name="dark_gray">#343333</color>
     <color name ="cardBackgroundColor">#D7F1EAEA</color>
+    <color name ="white">#FFFFFF</color>
+
 </resources>

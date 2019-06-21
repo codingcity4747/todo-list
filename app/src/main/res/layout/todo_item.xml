@@ -24,7 +24,6 @@
             android:ellipsize="end"
             android:maxLines="1"
             android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
-            app:layout_constraintEnd_toEndtOf="@id/isDone_id"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
