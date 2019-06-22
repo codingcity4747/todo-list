@@ -18,6 +18,7 @@ import project.todolist.model.todo;
 public class todoAdapter extends RecyclerView.Adapter<todoAdapter.viewHolder> {
 
     private List<todo> todoItems= new ArrayList<>();
+    private onItemClickListener listener ;
 
 
     @NonNull
@@ -64,6 +65,25 @@ public class todoAdapter extends RecyclerView.Adapter<todoAdapter.viewHolder> {
             title = itemView.findViewById(R.id.title_id);
 
             descreption = itemView.findViewById(R.id.desc_id);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int position = getAdapterPosition();
+                    if(listener !=null && position != RecyclerView.NO_POSITION){
+                        listener.onItemClick(todoItems.get(position));
+                    }
+                }
+            });
         }
+    }
+
+
+    public interface onItemClickListener{
+        void onItemClick(todo item);
+    }
+
+    public void setOnItemClickListener(onItemClickListener listener){
+        this.listener = listener;
     }
 }
