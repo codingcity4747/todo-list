@@ -12,13 +12,31 @@ import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.DiffUtil;
+import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 import project.todolist.model.todo;
 
-public class todoAdapter extends RecyclerView.Adapter<todoAdapter.viewHolder> {
+public class todoAdapter extends ListAdapter<todo,todoAdapter.viewHolder> {
 
-    private List<todo> todoItems= new ArrayList<>();
     private onItemClickListener listener ;
+
+    public todoAdapter() {
+        super(DIFF_CALLBACK);
+    }
+
+    private static final DiffUtil.ItemCallback<todo>  DIFF_CALLBACK = new DiffUtil.ItemCallback<todo>() {
+        @Override
+        public boolean areItemsTheSame(@NonNull todo oldItem, @NonNull todo newItem) {
+             return oldItem.getId() == newItem.getId();
+        }
+
+        @Override
+        public boolean areContentsTheSame(@NonNull todo oldItem, @NonNull todo newItem) {
+            return oldItem.getTitle().equals(newItem.getTitle())&&
+                    oldItem.getDesc().equals(newItem.getDesc()) ;
+        }
+    };
 
 
     @NonNull
@@ -31,24 +49,18 @@ public class todoAdapter extends RecyclerView.Adapter<todoAdapter.viewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull viewHolder holder, int position) {
-        todo item = todoItems.get(position);
+        todo item = getItem(position);
         holder.isDone.setChecked(item.isDone());
         holder.title.setText(item.getTitle());
         holder.descreption.setText(item.getDesc());
 
     }
 
-    @Override
-    public int getItemCount() {
-        return todoItems.size();
-    }
 
-    public void setTodoItems(List<todo> items){
-        this.todoItems = items;
-        notifyDataSetChanged();
-    }
+
+
     public todo getItemAt(int position){
-        return todoItems.get(position);
+        return getItem(position);
     }
 
      class viewHolder extends RecyclerView.ViewHolder {
@@ -71,7 +83,7 @@ public class todoAdapter extends RecyclerView.Adapter<todoAdapter.viewHolder> {
                 public void onClick(View v) {
                     int position = getAdapterPosition();
                     if(listener !=null && position != RecyclerView.NO_POSITION){
-                        listener.onItemClick(todoItems.get(position));
+                        listener.onItemClick(getItem(position));
                     }
                 }
             });

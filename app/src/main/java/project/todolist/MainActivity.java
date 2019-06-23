@@ -30,7 +30,6 @@ public class MainActivity extends AppCompatActivity {
 
     private todoViewModel viewModel;
     private RecyclerView recyclerView;
-    private FloatingActionButton addButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +38,6 @@ public class MainActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.recyclerView_id);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setHasFixedSize(true);
-        addButton = findViewById(R.id.add_button_id);
 
         final todoAdapter adapter = new todoAdapter();
         recyclerView.setAdapter(adapter);
@@ -50,18 +48,12 @@ public class MainActivity extends AppCompatActivity {
             public void onChanged(List<todo> todos) {
                 //recycleView update
                 Log.i(TAG, "onChanged: " + todos.size());
-                adapter.setTodoItems(todos);
+                adapter.submitList(todos);
             }
         });
 
 
-        addButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, newTodoActivity.class);
-                startActivityForResult(intent, ADD_ITEM_REQUEST);
-            }
-        });
+
 
         new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
             @Override
@@ -96,9 +88,13 @@ public class MainActivity extends AppCompatActivity {
             String title = data.getStringExtra(newTodoActivity.EXTRA_TITLE);
             String desc = data.getStringExtra(newTodoActivity.EXTRA_DESC);
 
-            todo item = new todo(false, title, desc);
-            viewModel.insert(item);
-            Toast.makeText(this, "new Item was Added", Toast.LENGTH_SHORT).show();
+            if(!title.isEmpty()){
+                todo item = new todo(false, title, desc);
+                viewModel.insert(item);
+                Toast.makeText(this, "new Item was Added", Toast.LENGTH_SHORT).show();
+            }else{
+                Toast.makeText(this, "Un complete item data", Toast.LENGTH_SHORT).show();
+            }
         } else if (requestCode ==EDIT_ITEM_REQUEST&& resultCode==RESULT_OK) {
             int id = data.getIntExtra(newTodoActivity.EXTRA_ID,-1);
             if(id == -1){
